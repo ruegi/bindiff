@@ -3,7 +3,6 @@ bindiff.py
 Vergleicht zwei Ordner binär
 
 rg, ab 2020-07-03
-WORKING VERSION auf CEBULON /archiv/video !!
 
 """
 
@@ -16,13 +15,13 @@ from pathlib import Path
 
 from typing import List
 
-primPath = "/mnt/platte/schnitt"
-secPath = "/archiv/video/_in4"
+# primPath = "/mnt/platte/schnitt"
+# secPath = "/archiv/video/_in4"
 
-# test pfade
-# primPath = "E:/Filme/schnitt.alt"
-# secPath = "y:/video/_in4"
+primPath = "E:/Filme/schnitt.alt"
+secPath = "y:/video/_in8"
 
+# erster Test: alle Dateien, die im primPath sind, müssen auch im secPath sein
 
 class Ergebnis():
     def __init__(self):
@@ -32,8 +31,11 @@ class Ergebnis():
         self.binfehler: int = 0
         self.fList: List = [] 
 
-    def __str__(self):        
-        return f"{self.gesamt} geprüft: davon {self.ok} OK; {self.fehler} fehlerhaft\n Fehlrehafte Binärvergleiche:\n" + "\n".join(self.fList)
+    def __str__(self):
+        if self.fList == 0:
+            return f"{self.gesamt} geprüft: davon {self.ok} OK; {self.fehler} fehlerhaft")    
+        else:
+            return f"{self.gesamt} geprüft: davon {self.ok} OK; {self.fehler} fehlerhaft\n Fehlerhafte Binärvergleiche:\n" + "\n".join(self.fList)
     
     def adderr(self, ftext):
         self.fList.append(ftext)
@@ -48,7 +50,7 @@ def progress(count, total, status='', bar_len=40):
     bar = '#' * filled_len + '-' * (bar_len - filled_len)
 
     fmt = '\r[%s] %s%s ...%s' % (bar, percents, '%', status)
-    # print('\b' * len(fmt), end='', flush=True)  # clears the line     # funktioniert nicht!
+    # print('\b' * len(fmt), end='', flush=True)  # clears the line
     sys.stdout.write(fmt)
     sys.stdout.flush()
 
@@ -112,7 +114,7 @@ for name in prim_files:
         prim_stats = os.stat(prim_file)
         sec_stats = os.stat(sec_file)
         if prim_stats.st_size == sec_stats.st_size:
-            print(f"> {name} ... Existiert und längengleich .. OK\n")
+            print(f"> {name} ... Existiert und ist längengleich .. OK\n")
             if bin_vgl(prim_file, sec_file, prim_stats.st_size):
                 result.ok += 1
             else:
