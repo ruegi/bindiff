@@ -28,7 +28,7 @@ COLOR = {
 # primPath = "/mnt/platte/schnitt"
 # secPath = "/archiv/video/_in4"
 
-primPath = "E:/Filme/schnitt"
+primPath = "E:/Filme/schnitt.alt"
 secPath = "y:/video/_in"
 
 version = "1.2 vom 2021-04-10"
@@ -112,8 +112,9 @@ sec_path: Path = Path(secPath)
 # StartMessage
 os.system('')   # magic Call to enable ANSi-Seq.
 print("=" * 80)
-print(COLOR["BLUE"] + 'BinDiff' + COLOR["ENDC"] + ' by ruegi,')
-print(COLOR["BLUE"] + f'Version: {version}' + COLOR["ENDC"])
+print(COLOR["BLUE"] + 'BinDiff' + COLOR["ENDC"] + ' by ruegi  ', end=" ")
+print(COLOR["BLUE"] + "Version " + COLOR["ENDC"] + f'{version}')
+
 print("=" * 80)
 
 for p_root, p_dirs, p_files in os.walk(prim_path):
@@ -139,10 +140,10 @@ for name in prim_files:
             else:
                 result.fehler += 1
         else:
-            print("> " + COLOR["RED"] + f"{name} ... {prim_stats.st_size()} <=ne=> {sec_stats.st_size()}")
+            print(COLOR["RED"] + "> " + f"{name} ... {prim_stats.st_size()} <=ne=> {sec_stats.st_size()}" + COLOR["ENDC"])
             result.fehler += 1
     else:
-        print(">>> " + COLOR["RED"] + f"{sec_file} ... FEHLT")
+        print(COLOR["RED"] + ">>> " + f"{sec_file} ... FEHLT" + COLOR["ENDC"])
         result.fehler += 1
 
 print(result)
